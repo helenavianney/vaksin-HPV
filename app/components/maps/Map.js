@@ -6,10 +6,12 @@ import useLabsLocation from '@/app/store/useLabsLocation';
 import useUserLocation from '@/app/store/useUserLocation';
 import useNearestLabs from '@/app/store/useNearestLabs';
 import useLocationPermission from '@/app/store/useLocationPermission';
+import NearestLabs from './NearestLabs';
+import LabsMarker from './LabsMarker';
+import UserMarker from './UserMarker';
 
 // Custom icons configuration
 import L from 'leaflet';
-import NearestLabs from './NearestLabs';
 
 const redIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
@@ -77,58 +79,6 @@ export default function Map() {
     setNearestLabs(nearest);
   }, [position, labs, setNearestLabs]);
 
-  function LocationMarker() {
-    const map = useMapEvents({
-      locationfound(e) {
-        setPosition({
-          lat: e.latlng.lat,
-          lng: e.latlng.lng
-        });
-        map.flyTo(e.latlng, map.getZoom());
-      },
-    });
-
-    return position === null ? null : (
-      <Marker position={position} icon={redIcon}>
-        <Popup>
-          <div className="bg-white rounded-lg shadow-md p-3">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">📍</span>
-              <p className="font-medium text-pink-600">Lokasi Kamu</p>
-            </div>
-          </div>
-        </Popup>
-      </Marker>
-    );
-  }
-
-  function LabsMarker() {
-    return labs.map(lab => (
-      <Marker 
-        key={lab.id} 
-        position={[lab.latitude, lab.longitude]} 
-        icon={yellowIcon}
-      >
-        <Popup>
-          <div className="bg-white rounded-lg p-3 min-w-[200px]">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-xl">🏥</span>
-              <h3 className="font-bold text-pink-600">{lab.name}</h3>
-            </div>
-            <div className="space-y-2">
-              <p className="text-sm text-gray-600 flex items-center gap-2">
-                <span>📍</span> {lab.address}
-              </p>
-              <p className="text-sm text-gray-600 flex items-center gap-2">
-                <span>📞</span> {lab.phone}
-              </p>
-            </div>
-          </div>
-        </Popup>
-      </Marker>
-    ));
-  }
-
   return (
     <>
       <MapContainer 
@@ -141,7 +91,7 @@ export default function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <LocationMarker />
+        <UserMarker />
         <LabsMarker />
         <NearestLabs />
       </MapContainer>
