@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import useLabsLocation from '@/app/store/useLabsLocation';
 import useUserLocation from '@/app/store/useUserLocation';
 import useNearestLabs from '@/app/store/useNearestLabs';
+import useLocationPermission from '@/app/store/useLocationPermission';
 
 // Custom icons configuration
 import L from 'leaflet';
@@ -28,10 +29,11 @@ const yellowIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
-export default function Map({ locationPermission }) {
+export default function Map() {
   const { labs, fetchLabs } = useLabsLocation();
   const { position, setPosition } = useUserLocation();
   const { nearestLabs, setNearestLabs } = useNearestLabs();
+  const { locationPermission } = useLocationPermission();
   const mapRef = useRef();
 
   
@@ -44,7 +46,7 @@ export default function Map({ locationPermission }) {
       }
     };  
     fetchData();
-  }, []);
+  }, [fetchLabs]);
   
   
   // Effect untuk otomatis mencari lokasi ketika permission diberikan
@@ -139,7 +141,7 @@ export default function Map({ locationPermission }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <LocationMarker locationPermission={locationPermission} />
+        <LocationMarker />
         <LabsMarker />
         <NearestLabs />
       </MapContainer>

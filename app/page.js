@@ -23,7 +23,7 @@ export default function Home() {
     }
   };  
     fetchData();
-  }, []);
+  }, [fetchVaccineTypes]);
 
   const handleFindLocation = () => {
     setShowToast(true);
@@ -167,7 +167,7 @@ export default function Home() {
           
           {locationPermission && (
             <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-pink-200 transform hover:scale-[1.01] transition-all duration-300">
-                <MapComponent locationPermission={locationPermission} />
+                <MapComponent />
               <div className="p-8 bg-gradient-to-r from-pink-50 to-purple-50">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-2xl">💝</span>

@@ -1,5 +1,6 @@
 import { Marker, Popup, useMap } from "react-leaflet";
 import L from 'leaflet';
+import useNearestLabs from "@/app/store/useNearestLabs";
 
 const yellowIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
@@ -10,7 +11,8 @@ const yellowIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
-export default function NearestLabs({ nearestLabs }) {
+export default function NearestLabs() {
+  const { nearestLabs } = useNearestLabs();
     const map = useMap();
 
     if (!nearestLabs || nearestLabs.length === 0) return null;
