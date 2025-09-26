@@ -1,41 +1,36 @@
 'use client';
-import { useState } from 'react';
-import Toast from '../components/ui/Toast';
-import PromoCarousel from '../components/ui/PromoCarousel';
+
+import Toast from '../components/Toast';
+import PromoCarousel from '../components/PromoCarousel';
 import Image from 'next/image';
 import MapComponent from '../components/maps/MapComponent';
+import useLocationToast from './store/useLocationToast';
+import useLocationPermission from './store/useLocationPermission';
+import useVaccineTypes from './store/useVaccineTypes';
 
 export default function Home() {
-  const [showLocationToast, setShowLocationToast] = useState(false);
-  const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
-
-  const vaccineTypes = [
-    { name: 'HPV Dosis 1', price: 'Rp 1.471.550', description: 'Vaksin HPV dosis pertama untuk perlindungan awal' },
-    { name: 'HPV Dosis 2', price: 'Rp 1.440.570', description: 'Vaksin HPV dosis kedua untuk melengkapi perlindungan' },
-    { name: 'HPV Dosis 3', price: 'Rp 1.409.590', description: 'Vaksin HPV dosis ketiga untuk perlindungan maksimal' },
-    { name: 'HPV 9-Valent Dosis 1', price: 'Rp 2.707.500', description: 'Vaksin HPV 9-valent dosis pertama, perlindungan lebih luas' },
-    { name: 'HPV 9-Valent Dosis 2', price: 'Rp 2.650.500', description: 'Vaksin HPV 9-valent dosis kedua' },
-    { name: 'HPV 9-Valent Dosis 3', price: 'Rp 2.593.500', description: 'Vaksin HPV 9-valent dosis ketiga, perlindungan optimal' }
-  ];
+  const { showToast, setShowToast } = useLocationToast();
+  const { locationPermission, setLocationPermission } = useLocationPermission();
+  const { vaccineTypes } = useVaccineTypes();
 
   const handleFindLocation = () => {
-    setShowLocationToast(true);
+    setShowToast(true);
   };
 
   const handleLocationAccept = () => {
-    setLocationPermissionGranted(true);
-    setShowLocationToast(false);
+    setLocationPermission(true);
+    setShowToast(false);
   };
 
   const handleLocationDecline = () => {
-    setShowLocationToast(false);
+    setShowToast(false);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white">
       <Toast 
         message="Kami memerlukan akses lokasi untuk menunjukkan laboratorium Prodia terdekat dari lokasi Anda. Ini akan membantu Anda menemukan tempat vaksinasi HPV yang paling mudah dijangkau."
-        show={showLocationToast}
+        show={showToast}
         onAccept={handleLocationAccept}
         onDecline={handleLocationDecline}
       />
@@ -143,16 +138,16 @@ export default function Home() {
             <p className="text-gray-600 mb-8 text-lg max-w-2xl mx-auto leading-relaxed">
               Cari lokasi laboratorium Prodia di sekitar kamu untuk vaksinasi HPV yang mudah dan nyaman.
             </p>
-            {!locationPermissionGranted && (
+            {!locationPermission && (
               <div onClick={handleFindLocation}>
                 <button className="px-6 py-3 text-lg text-[#382b22]">Cari Lokasi Terdekat</button>
               </div>
             )}
           </div>
           
-          {locationPermissionGranted && (
+          {locationPermission && (
             <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-pink-200 transform hover:scale-[1.01] transition-all duration-300">
-                <MapComponent locationPermissionGranted={locationPermissionGranted} />
+                <MapComponent locationPermission={locationPermission} />
               <div className="p-8 bg-gradient-to-r from-pink-50 to-purple-50">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-2xl">💝</span>
