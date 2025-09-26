@@ -1,10 +1,10 @@
 'use client';
 import { MapContainer, TileLayer, useMapEvents, Marker, Popup } from 'react-leaflet';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import 'leaflet/dist/leaflet.css';
-import useLabsLocation from '../store/useLabsLocation';
-import useUserLocation from '../store/useUserLocation';
-import useNearestLabs from '../store/useNearestLabs';
+import useLabsLocation from '@/app/store/useLabsLocation';
+import useUserLocation from '@/app/store/useUserLocation';
+import useNearestLabs from '@/app/store/useNearestLabs';
 
 // Custom icons configuration
 import L from 'leaflet';
@@ -29,18 +29,30 @@ const yellowIcon = new L.Icon({
 });
 
 export default function Map({ locationPermission }) {
-  const { labs } = useLabsLocation();
+  const { labs, fetchLabs } = useLabsLocation();
   const { position, setPosition } = useUserLocation();
   const { nearestLabs, setNearestLabs } = useNearestLabs();
-  
   const mapRef = useRef();
 
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await fetchLabs();
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };  
+    fetchData();
+  }, []);
+  
+  
   // Effect untuk otomatis mencari lokasi ketika permission diberikan
   useEffect(() => {
     if (locationPermission && mapRef.current) {
       mapRef.current.locate({ setView: true, maxZoom: 16 });
-    }
-  }, [locationPermission]);
+  }
+}, [locationPermission]);
 
   // Effect untuk menghitung lab terdekat
   useEffect(() => {
@@ -63,19 +75,16 @@ export default function Map({ locationPermission }) {
     setNearestLabs(nearest);
   }, [position, labs, setNearestLabs]);
 
-  function LocationMarker({ locationPermission }) {
+  function LocationMarker() {
     const map = useMapEvents({
       locationfound(e) {
-        setPosition(e.latlng);
+        setPosition({
+          lat: e.latlng.lat,
+          lng: e.latlng.lng
+        });
         map.flyTo(e.latlng, map.getZoom());
       },
     });
-
-    useEffect(() => {
-      if (locationPermission) {
-        map.locate({ setView: true, maxZoom: 16 });
-      }
-    }, [locationPermission, map]);
 
     return position === null ? null : (
       <Marker position={position} icon={redIcon}>

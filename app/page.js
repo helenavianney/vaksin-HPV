@@ -1,17 +1,29 @@
 'use client';
 
-import Toast from '../components/Toast';
-import PromoCarousel from '../components/PromoCarousel';
+import Toast from './components/Toast';
+import PromoCarousel from './components/PromoCarousel';
 import Image from 'next/image';
-import MapComponent from '../components/maps/MapComponent';
+import MapComponent from './components/maps/MapComponent';
 import useLocationToast from './store/useLocationToast';
 import useLocationPermission from './store/useLocationPermission';
 import useVaccineTypes from './store/useVaccineTypes';
+import { useEffect } from 'react';
 
 export default function Home() {
   const { showToast, setShowToast } = useLocationToast();
   const { locationPermission, setLocationPermission } = useLocationPermission();
-  const { vaccineTypes } = useVaccineTypes();
+  const { vaccineTypes, fetchVaccineTypes } = useVaccineTypes();
+
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      await fetchVaccineTypes();
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };  
+    fetchData();
+  }, []);
 
   const handleFindLocation = () => {
     setShowToast(true);
@@ -63,7 +75,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <Image 
-                src="/image/vaksin-hpv.png" 
+                src="/vaksin-hpv.png" 
                 alt="Vaksin HPV" 
                 width={1000} 
                 height={800}
@@ -88,7 +100,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-[#382b22]">Berkolaborasi dengan</h2>
           <div className="flex justify-center items-center">
             <Image 
-              src="/image/Laboratorium_Klinik_Prodia.png" 
+              src="/Laboratorium_Klinik_Prodia.png" 
               alt="Prodia Logo" 
               width={300} 
               height={120}
