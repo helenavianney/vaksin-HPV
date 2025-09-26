@@ -60,7 +60,9 @@ export default function Home() {
                 Vaksinasi HPV adalah investasi terbaik untuk kesehatan reproduksimu di masa depan!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <button className="px-4 py-2 md:px-6 md:py-3 md:text-lg">Daftar Vaksin Sekarang</button>
+                <button className="bg-gradient-to-r text-center from-pink-500 to-pink-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-semibold hover:shadow-lg hover:from-pink-600 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 gap-2">
+                  Daftar Vaksin Sekarang
+                </button>
               </div>
               <div className="flex items-center gap-4">
                 <div className="flex -space-x-2">
@@ -124,7 +126,10 @@ export default function Home() {
                 <h3 className="text-xl font-bold text-[#382b22] mb-3">{vaccine.name}</h3>
                 <p className="text-2xl font-bold text-pink-600 mb-3">{vaccine.price}</p>
                 <p className="text-gray-600 text-sm mb-4">{vaccine.description}</p>
-                <button className="w-full py-3">Pilih Paket</button>
+                <button className="w-full py-3 bg-white text-pink-600 rounded-full font-semibold border-2 border-pink-300 hover:bg-pink-50 hover:border-pink-400 transition-all duration-300 flex items-center justify-center gap-2">
+              <span>✨</span>
+              Pilih Paket
+            </button>
               </div>
             ))}
           </div>
@@ -152,7 +157,10 @@ export default function Home() {
             </p>
             {!locationPermission && (
               <div onClick={handleFindLocation}>
-                <button className="px-6 py-3 text-lg text-[#382b22]">Cari Lokasi Terdekat</button>
+                <button className="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl hover:from-pink-600 hover:to-purple-600 transform hover:scale-105 transition-all duration-300 mx-auto flex items-center gap-3">
+                  <span className="text-2xl">🎯</span>
+                  Cari Lokasi Terdekat
+                </button>
               </div>
             )}
           </div>
