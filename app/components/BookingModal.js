@@ -8,7 +8,7 @@ import useBookingData from '@/app/store/useBookingData';
 export default function BookingModal({ show, onClose, onSubmit, selectedVaccine }) {
   const { labs, fetchLabs } = useLabsLocation();
   const { vaccineTypes } = useVaccineTypes();
-  const { bookingData, updateBookingField, resetBookingData } = useBookingData();
+  const { bookingData, updateBookingField, resetBookingData, setBookingData } = useBookingData();
 
   useEffect(() => {
     fetchLabs();
@@ -26,6 +26,7 @@ export default function BookingModal({ show, onClose, onSubmit, selectedVaccine 
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setBookingData(bookingData);
     onSubmit(bookingData);
     resetBookingData();
   };

@@ -1,8 +1,18 @@
 'use client';
 
+import { useEffect } from 'react';
+import useBookingData from '@/app/store/useBookingData';
+
 import Image from "next/image";
 
-export default function ETicket({ show, onClose, bookingData, onDownload }) {
+export default function ETicket({ show, onClose, onDownload }) {
+  const { bookingData, loadBookingData } = useBookingData();
+
+  useEffect(() => {
+    if (show) {
+      loadBookingData();
+    }
+  }, [show, loadBookingData]);
   if (!show) return null;
 
   return (
