@@ -11,6 +11,10 @@ export const metadata = {
   keywords: "vaksin HPV, kanker serviks, kesehatan wanita, vaksinasi remaja, laboratorium klinik, Gardasil, Cervarix",
 };
 
+export const viewport = {
+  themeColor: "#F89BB1",
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="id">

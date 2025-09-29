@@ -7,7 +7,7 @@ import MapComponent from './components/maps/MapComponent';
 import useLocationToast from './store/useLocationToast';
 import useLocationPermission from './store/useLocationPermission';
 import useVaccineTypes from './store/useVaccineTypes';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import BookingModal from './components/BookingModal';
 import ETicket from './components/ETicket';
 import useBookingData from './store/useBookingData';
@@ -198,12 +198,6 @@ export default function Home() {
                 </button>
               </div>
             ))}
-          </div>
-          <div className="text-center mt-8">
-            <p className="text-gray-600 mb-4">Butuh konsultasi untuk memilih jenis vaksin yang tepat?</p>
-            <button className="px-4 py-2 bg-white text-pink-600 font-medium rounded-lg border-2 border-pink-500 cursor-pointer hover:bg-pink-50 hover:border-pink-600 transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg">
-              Konsultasi dengan Dokter
-            </button>
           </div>
         </div>
       </section>
