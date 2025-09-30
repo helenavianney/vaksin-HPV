@@ -19,7 +19,7 @@ export default function Home() {
   const { showToast, setShowToast } = useLocationToast();
   const { locationPermission, setLocationPermission } = useLocationPermission();
   const { vaccineTypes, fetchVaccineTypes } = useVaccineTypes();
-  const { bookingData, loadBookingData } = useBookingData();
+  const { bookingData } = useBookingData();
   const { 
     showVaccineInfo, 
     showBooking, 
@@ -64,8 +64,7 @@ export default function Home() {
   };
 
   const handleDownloadTicket = () => {
-    loadBookingData();
-    if (!bookingData || !bookingData.nama) return;
+    if (!bookingData) return;
     
     const ticket = `
       E-TICKET VAKSINASI HPV
@@ -278,6 +277,7 @@ export default function Home() {
       <ETicket
         show={showTicket}
         onClose={closeTicket}
+        bookingData={bookingData}
         onDownload={handleDownloadTicket}
       />
     </div>
