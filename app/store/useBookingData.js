@@ -19,21 +19,6 @@ const useBookingData = create((set) => ({
   updateBookingField: (field, value) => set((state) => ({
     bookingData: { ...state.bookingData, [field]: value }
   })),
-  
-  resetBookingData: () => set({
-    bookingData: {
-      nik: '',
-      nama: '',
-      usia: '',
-      gender: '',
-      phone: '',
-      lab: '',
-      tanggungan: '',
-      tanggal: '',
-      jam: '',
-      vaccineType: '',
-    }
-  }),
 }));
 
 export default useBookingData;
