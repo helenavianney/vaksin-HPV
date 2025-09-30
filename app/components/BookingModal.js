@@ -26,6 +26,7 @@ export default function BookingModal({ show, onClose, onSubmit, selectedVaccine 
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setBookingData(bookingData);
     onSubmit(bookingData);
   };
 
