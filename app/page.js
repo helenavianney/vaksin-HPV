@@ -63,31 +63,7 @@ export default function Home() {
     showTicketAfterBooking();
   };
 
-  const handleDownloadTicket = () => {
-    if (!bookingData) return;
-    
-    const ticket = `
-      E-TICKET VAKSINASI HPV
-      ====================
-      NIK: ${bookingData.nik}
-      Nama: ${bookingData.nama}
-      Usia: ${bookingData.usia}
-      Gender: ${bookingData.gender}
-      No. HP: ${bookingData.phone}
-      Lab: ${bookingData.lab}
-      Tanggungan: ${bookingData.tanggungan}
-      Jadwal: ${bookingData.tanggal} ${bookingData.jam}
-      ====================
-      Harap tunjukkan e-ticket ini saat kedatangan
-    `;
-    const blob = new Blob([ticket], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `e-ticket-vaksin-hpv-${bookingData.nama}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+
 
   return (
     <div className="min-h-screen">
@@ -278,7 +254,6 @@ export default function Home() {
         show={showTicket}
         onClose={closeTicket}
         bookingData={bookingData}
-        onDownload={handleDownloadTicket}
       />
     </div>
   )

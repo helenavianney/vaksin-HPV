@@ -1,40 +1,112 @@
 'use client';
 
-import Image from "next/image";
+import { useRef } from 'react';
+import html2canvas from 'html2canvas';
 
-export default function ETicket({ show, onClose, onDownload, bookingData }) {
+export default function ETicket({ show, onClose, bookingData }) {
+  const ticketRef = useRef();
+
+  const handleDownloadJPG = async () => {
+    if (!ticketRef.current || !bookingData) return;
+    
+    try {
+      const canvas = await html2canvas(ticketRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true
+      });
+      
+      const link = document.createElement('a');
+      link.download = `e-ticket-vaksin-hpv-${bookingData.nama || 'user'}.jpg`;
+      link.href = canvas.toDataURL('image/jpeg', 0.9);
+      link.click();
+    } catch (error) {
+      console.error('Error generating ticket:', error);
+    }
+  };
+
   if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md mx-auto border-2 border-pink-200">
-        <div className="text-center mb-6">
-          <span className="text-4xl mb-4 inline-block">🎫</span>
-          <h3 className="text-xl font-bold text-pink-600">Tiket Digital Vaksin HPV</h3>
-          <p className="text-gray-600 mt-2">Terima kasih, <span className="font-semibold">{bookingData.nama}</span>!</p>
-        </div>
+      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md mx-auto border-2 border-pink-200 max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
+        <div ref={ticketRef} style={{
+          background: '#ffffff',
+          padding: '24px',
+          borderRadius: '12px',
+          border: '2px solid #f8bbd9',
+          marginBottom: '24px',
+          fontFamily: 'Arial, sans-serif'
+        }}>
+          <div style={{textAlign: 'center', marginBottom: '24px'}}>
+            <span style={{fontSize: '36px', display: 'inline-block', marginBottom: '16px'}}>🎫</span>
+            <h3 style={{fontSize: '20px', fontWeight: 'bold', color: '#ec4899', margin: '0'}}>E-Ticket Vaksin HPV</h3>
+            <p style={{color: '#6b7280', marginTop: '8px', margin: '8px 0 0 0'}}>Tunjukkan tiket ini saat kedatangan</p>
+          </div>
 
-        <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-6 mb-6">
-          <div className="space-y-3 text-sm">
-            <div><strong>NIK:</strong> {bookingData.nik}</div>
-            <div><strong>Nama:</strong> {bookingData.nama}</div>
-            <div><strong>Usia:</strong> {bookingData.usia} tahun</div>
-            <div><strong>Jenis Kelamin:</strong> {bookingData.gender}</div>
-            <div><strong>No. HP:</strong> {bookingData.phone}</div>
-            <div><strong>Lab:</strong> {bookingData.lab}</div>
-            <div><strong>Jenis Vaksin:</strong> {bookingData.vaccineType}</div>
-            <div><strong>Tanggungan:</strong> {bookingData.tanggungan}</div>
-            <div><strong>Jadwal:</strong> {bookingData.tanggal} {bookingData.jam}</div>
+          <div style={{fontSize: '14px'}}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
+              <div>
+                <p style={{color: '#6b7280', margin: '0 0 4px 0'}}>NIK</p>
+                <p style={{fontWeight: 'bold', color: '#382b22', margin: '0'}}>{bookingData?.nik}</p>
+              </div>
+              <div>
+                <p style={{color: '#6b7280', margin: '0 0 4px 0'}}>Nama</p>
+                <p style={{fontWeight: 'bold', color: '#382b22', margin: '0'}}>{bookingData?.nama}</p>
+              </div>
+              <div>
+                <p style={{color: '#6b7280', margin: '0 0 4px 0'}}>Usia</p>
+                <p style={{fontWeight: 'bold', color: '#382b22', margin: '0'}}>{bookingData?.usia} tahun</p>
+              </div>
+              <div>
+                <p style={{color: '#6b7280', margin: '0 0 4px 0'}}>Gender</p>
+                <p style={{fontWeight: 'bold', color: '#382b22', margin: '0'}}>{bookingData?.gender}</p>
+              </div>
+              <div>
+                <p style={{color: '#6b7280', margin: '0 0 4px 0'}}>No. HP</p>
+                <p style={{fontWeight: 'bold', color: '#382b22', margin: '0'}}>{bookingData?.phone}</p>
+              </div>
+              <div>
+                <p style={{color: '#6b7280', margin: '0 0 4px 0'}}>Vaksin</p>
+                <p style={{fontWeight: 'bold', color: '#382b22', margin: '0'}}>{bookingData?.vaccineType}</p>
+              </div>
+            </div>
+            
+            <div style={{borderTop: '1px solid #f9a8d4', paddingTop: '16px', marginTop: '16px'}}>
+              <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
+                <div>
+                  <p style={{color: '#6b7280', margin: '0 0 4px 0'}}>Lab Tujuan</p>
+                  <p style={{fontWeight: 'bold', color: '#382b22', margin: '0'}}>{bookingData?.lab}</p>
+                </div>
+                <div>
+                  <p style={{color: '#6b7280', margin: '0 0 4px 0'}}>Tanggungan</p>
+                  <p style={{fontWeight: 'bold', color: '#382b22', margin: '0'}}>{bookingData?.tanggungan}</p>
+                </div>
+                <div>
+                  <p style={{color: '#6b7280', margin: '0 0 4px 0'}}>Tanggal</p>
+                  <p style={{fontWeight: 'bold', color: '#382b22', margin: '0'}}>{bookingData?.tanggal}</p>
+                </div>
+                <div>
+                  <p style={{color: '#6b7280', margin: '0 0 4px 0'}}>Jam</p>
+                  <p style={{fontWeight: 'bold', color: '#382b22', margin: '0'}}>{bookingData?.jam}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div style={{textAlign: 'center', paddingTop: '16px', borderTop: '1px solid #f9a8d4', marginTop: '16px'}}>
+              <p style={{fontSize: '12px', color: '#6b7280', margin: '0'}}>Booking ID: #{Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+              <p style={{fontSize: '12px', color: '#ec4899', fontWeight: '500', marginTop: '8px', margin: '8px 0 0 0'}}>💝 Terima kasih telah mempercayai RISA</p>
+            </div>
           </div>
         </div>
 
         <div className="space-y-4">
           <button
-            onClick={onDownload}
+            onClick={handleDownloadJPG}
             className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full font-semibold hover:shadow-lg hover:from-pink-600 hover:to-purple-600 transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
           >
-            <Image width="20" height="20" src="/download-icon.png" alt="download-icon"/> 
-            Download E-Ticket
+            <span>📥</span>
+            Download JPG
           </button>
           <button
             onClick={onClose}

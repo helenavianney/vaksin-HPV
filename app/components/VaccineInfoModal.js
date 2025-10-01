@@ -5,7 +5,7 @@ export default function VaccineInfoModal({ show, onClose, onBooking, selectedVac
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-2 sm:p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-4 sm:p-6 w-full max-w-2xl mx-auto border-2 border-pink-200 max-h-[95vh] sm:max-h-[90vh] overflow-y-auto scrollbar">
+      <div className="bg-white rounded-2xl shadow-2xl p-4 sm:p-6 w-full max-w-2xl mx-auto border-2 border-pink-200 max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
         <div className="text-center mb-4 sm:mb-6">
           <h3 className="text-xl sm:text-2xl font-bold text-pink-600 mb-2">{selectedVaccine.name}</h3>
           <p className="text-2xl sm:text-3xl font-bold text-[#382b22]">{selectedVaccine.price}</p>
